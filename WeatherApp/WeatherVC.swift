@@ -10,6 +10,14 @@ import UIKit
 
 class WeatherVC: UIViewController {
 
+    @IBOutlet weak var dateLbl: UILabel!
+    @IBOutlet weak var currentTempLbl: UILabel!
+    @IBOutlet weak var locationLbl: UILabel!
+    @IBOutlet weak var currentWeatherImage: UIImageView!
+    @IBOutlet weak var currentWeatherType: UILabel!
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
