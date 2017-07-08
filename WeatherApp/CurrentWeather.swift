@@ -41,7 +41,7 @@ class CurrentWeather {
     
     var weatherType : String {
         if _weatherType == nil {
-            _weatherType = ""
+            _weatherType = "hello"
         }
         return _weatherType
     }
@@ -53,13 +53,45 @@ class CurrentWeather {
         return _currentTemp
     }
     
-    func downloadWeatherDetails(Completed : DownloadComplete) {
+    func downloadWeatherDetails(Completed : @escaping DownloadComplete) {
         // alamofire download
         let currentWeatherURL = URL(string: CURRENT_WEATHER_URL)!
         Alamofire.request(currentWeatherURL).responseJSON { response in
             let result = response.result
-            print(response)
-        }
-        Completed()
-    }
+        
+            if let dict = result.value as? Dictionary<String, AnyObject> {
+                
+                // go through dictionary and find name
+                if let name = dict["name"] as? String {
+                    // capitlizes first letter
+                    self._cityName = name.capitalized
+                    //print(self._cityName)
+                }
+                
+                // retrieve weather type from json input
+                if let weather = dict["weather"] as? [Dictionary<String, AnyObject>] {
+                    if let main = weather[0]["main"] as? String {
+                        self._weatherType = main.capitalized
+                        print(self._weatherType)
+                    }
+                }
+                
+                // retrive temperature from json input
+                if let main = dict["main"] as? Dictionary<String, AnyObject> {
+                    if let currentTemperature  = main["temp"] as? Double {
+                        // convert from kelvin to farenheit
+                        let kelvinToFarenheitPreDivision = (currentTemperature * (9/5) - 459.67)
+                        
+                        let KelvinToFarenheit = Double(round(10 * kelvinToFarenheitPreDivision/10))
+                        
+                        self._currentTemp = KelvinToFarenheit
+                        print(self._currentTemp)
+                    }
+                }
+                
+            } // dictionary
+            Completed()
+        } // alamo
+        
+    } // func
 }
