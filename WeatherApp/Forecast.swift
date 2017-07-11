@@ -46,8 +46,9 @@ class Forecast {
     }
     
     init(weatherDict: Dictionary<String, AnyObject>) {
-        if let temp = weatherDict["temp"] as? Dictionary<String, AnyObject> {
-            if let min = temp["min"] as? Double {
+        // get min and max temperatures of the day
+        if let temp = weatherDict["main"] as? Dictionary<String, AnyObject> {
+            if let min = temp["temp_min"] as? Double {
                 // convert from kelvin to farenheit
                 let kelvinToFarenheitPreDivision = (min * (9/5) - 459.67)
                     
@@ -56,7 +57,7 @@ class Forecast {
                 self._lowTemp = "\(KelvinToFarenheit)"
             }
             
-            if let max = temp["max"] as? Double {
+            if let max = temp["temp_max"] as? Double {
                 // convert from kelvin to farenheit
                 let kelvinToFarenheitPreDivision = (max * (9/5) - 459.67)
                 
@@ -66,19 +67,22 @@ class Forecast {
             }
         }
         
+        // get day's weather type
         if let weather = weatherDict["weather"] as? [Dictionary<String, AnyObject>] {
             if let main = weather[0]["main"] as? String {
                 self._weatherType = main.capitalized
             }
         }
         
+        // get day
         if let date = weatherDict["dt"] as? Double {
             let unixCovertedDate = Date(timeIntervalSince1970: date)
             let dateFormatter = DateFormatter()
+            dateFormatter.timeStyle = .medium
+            let str = "\(dateFormatter.string(from: unixCovertedDate))"
             dateFormatter.dateStyle = .full
             dateFormatter.dateFormat = "EEEE"
-            dateFormatter.timeStyle = .none
-            self._date = unixCovertedDate.daysOfTheWeek()
+            self._date = "\(unixCovertedDate.daysOfTheWeek()) \(str)"
         }
     }
 }
