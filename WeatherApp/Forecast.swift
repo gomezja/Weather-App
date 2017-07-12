@@ -80,9 +80,10 @@ class Forecast {
             let dateFormatter = DateFormatter()
             dateFormatter.timeStyle = .medium
             let str = "\(dateFormatter.string(from: unixCovertedDate))"
+            self._lowTemp = str
             dateFormatter.dateStyle = .full
             dateFormatter.dateFormat = "EEEE"
-            self._date = "\(unixCovertedDate.daysOfTheWeek()) \(str)"
+            self._date = unixCovertedDate.daysOfTheWeek()//) \(str)"
         }
     }
 }
