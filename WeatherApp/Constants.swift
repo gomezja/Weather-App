@@ -17,6 +17,6 @@ let APP_KEY = "9c53e58edc5459f4fc9e377db364fb1a"
 // tells the function when downloading is complete
 typealias DownloadComplete = () -> ()
 
-let CURRENT_WEATHER_URL = "\(BASE_URL)weather?\(LATITUDE)-33\(LONGITUDE)121\(APP_ID)\(APP_KEY)"
-let FORECASTURL = "\(BASE_URL)forecast?\(LATITUDE)-33\(LONGITUDE)121\(APP_ID)\(APP_KEY)"
+let CURRENT_WEATHER_URL = "\(BASE_URL)weather?\(LATITUDE)\(Location.sharedInstance.latitude!)\(LONGITUDE)\(Location.sharedInstance.longitude!)\(APP_ID)\(APP_KEY)"
+let FORECASTURL = "\(BASE_URL)forecast?\(LATITUDE)\(Location.sharedInstance.latitude!)\(LONGITUDE)\(Location.sharedInstance.longitude!)\(APP_ID)\(APP_KEY)"
 
